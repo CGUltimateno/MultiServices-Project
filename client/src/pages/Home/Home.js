@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import classes from "./Home.module.css";
 import { ProductCard } from "../ProductCard/ProductCard";
 import { useHistory } from "react-router-dom";
-import api from "../../api";
+import api from "../api/api";
 
 export const Home = ({ setIsAuthenticated }) => {
   const history = useHistory();
@@ -13,10 +13,22 @@ export const Home = ({ setIsAuthenticated }) => {
   const [weather, setWeather] = useState("");
   const [weatherError, setWeatherError] = useState(false);
   const [latestProductAddedToCart, setLatestProductAddedToCart] = useState();
+  const [feedback, setFeedback] = useState(''); 
+
   const logoutHandler = () => {
     sessionStorage.removeItem("isAuthenticated");
     setIsAuthenticated(false);
     history.push("/");
+  };
+
+  const handleSubmit = async (event) => { 
+    event.preventDefault();
+    try {
+      await api.createFeedback({ text: feedback });
+      setFeedback('');
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(async () => {
@@ -110,6 +122,15 @@ export const Home = ({ setIsAuthenticated }) => {
             <p className={classes.notFound}>No Products found in your cart.</p>
           ))}
       </div>
+      <span>Feedback</span>
+      <form onSubmit={handleSubmit}>
+        <textarea
+          placeholder="Enter your feedback here"
+          value={feedback}
+          onChange={(e) => setFeedback(e.target.value)}
+        />
+        <button type="submit">Submit</button>
+      </form>
       <button className={classes.logout} onClick={logoutHandler}>
         Logout
       </button>

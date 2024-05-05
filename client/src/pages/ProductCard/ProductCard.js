@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import classes from './ProductCard.module.css';
-import api from "../../api";
+import api from "../../api/api";
 
 export const ProductCard = ({details, isShoppingCart, setLatestProductAddedToCart}) => {
   const [error, setError] = useState('');
