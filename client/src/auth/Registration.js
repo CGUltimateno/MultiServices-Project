@@ -1,11 +1,9 @@
-// Registration.js
-
 import React, { useState } from "react";
 import classes from "./Registration.module.css";
 import { useHistory } from "react-router-dom";
 import api from "../api";
 
-export const Registration = ({ setIsAuthenticated }) => {
+export const Registration = ({  }) => {
   const history = useHistory();
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState(false);
@@ -17,27 +15,25 @@ export const Registration = ({ setIsAuthenticated }) => {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  const handleSubmit = async (event) => {
-    setIsLoading(true);
-    event.preventDefault();
-    await api
-      .userRegister(inputs)
-      .then((res) => {
-        console.log("user registration successful", res);
-        localStorage.setItem("isAuthenticated", true);
-        localStorage.setItem("userId", res?.data?.id);
-        setInputs(null);
-        setIsAuthenticated(true);
-        history.push("/products");
-      })
-      .catch((err) => {
-        setError(
-          err?.response?.data?.message ||
-            "Registration failed. Please try again."
-        );
-      })
-      .finally(() => setIsLoading(false));
-  };
+    const handleSubmit = async (event) => {
+        setIsLoading(true);
+        event.preventDefault();
+        await api
+            .userRegister(inputs)
+            .then((res) => {
+                console.log("user registration successful", res);
+                sessionStorage.setItem("userId", res?.data?.id);
+                setInputs(null);
+                history.push("/login"); // Redirect to login page
+            })
+            .catch((err) => {
+                setError(
+                    err?.response?.data?.message ||
+                    "Registration failed. Please try again."
+                );
+            })
+            .finally(() => setIsLoading(false));
+    };
 
   return (
     <form className={classes.formContainer} onSubmit={handleSubmit}>

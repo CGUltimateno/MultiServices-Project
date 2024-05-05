@@ -90,6 +90,25 @@ services:
       - ecommerce-app
     volumes:
       - shopping-cart-volume:/data/db
+  feedback_service:
+    build: ./feedback_service
+    container_name: feedback_service_container
+    ports:
+      - "5004:5004"
+    networks:
+      - ecommerce-app
+    volumes:
+      - ./feedback_service:/app
+      - /app/node_modules
+  feedback_db:
+    image: mongo:3.6.19-xenial
+    ports:
+      - "27020:27017"
+    networks:
+        - ecommerce-app
+    volumes:
+        - feedback-volume:/data/db
+
 networks:
   ecommerce-app:
     driver: bridge
@@ -99,4 +118,6 @@ volumes:
   products-volume:
     driver: local
   shopping-cart-volume:
+    driver: local
+  feedback-volume:
     driver: local

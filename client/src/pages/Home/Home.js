@@ -14,7 +14,7 @@ export const Home = ({ setIsAuthenticated }) => {
   const [weatherError, setWeatherError] = useState(false);
   const [latestProductAddedToCart, setLatestProductAddedToCart] = useState();
   const logoutHandler = () => {
-    localStorage.removeItem("isAuthenticated");
+    sessionStorage.removeItem("isAuthenticated");
     setIsAuthenticated(false);
     history.push("/");
   };
@@ -35,7 +35,7 @@ export const Home = ({ setIsAuthenticated }) => {
   }, []);
 
   useEffect(async () => {
-    const userId = localStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
     await api
       .getProductsFromCart(userId)
       .then((cart) => {

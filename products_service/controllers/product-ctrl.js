@@ -10,11 +10,6 @@ getProducts = async (req, res) => {
     }).catch(err => console.log(err));
 }
 
-checkServiceRunning = (req, res) => {
-    res.send('Hello World! - from products service');
-}
-
 module.exports = {
     getProducts,
-    checkServiceRunning
 }

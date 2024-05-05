@@ -8,7 +8,7 @@ export const ProductCard = ({details, isShoppingCart, setLatestProductAddedToCar
 
   const addToCartHandler = async (event, data) => {
     event.preventDefault();
-    const userId = localStorage.getItem("userId");
+    const userId = sessionStorage.getItem("userId");
     const cartObj = {
       productId: data?._id,
       userId,

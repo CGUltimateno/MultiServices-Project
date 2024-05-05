@@ -5,14 +5,15 @@ import { Registration } from "./auth/Registration.js"; // Import the Registratio
 import { Home } from "./pages/Home/Home.js";
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("isAuthenticated"));
+  const [isAuthenticated, setIsAuthenticated] = useState(sessionStorage.getItem("isAuthenticated"));
   useEffect(() => {
-    setIsAuthenticated(localStorage.getItem("isAuthenticated"));
+    setIsAuthenticated(sessionStorage.getItem("isAuthenticated"));
   }, [isAuthenticated]);
 
   return (
     <Router>
         <Switch>
+            <Route exact path="/" render={() => isAuthenticated ? <Redirect to="/login" /> : <Redirect to="/login" />} />
             <Route path="/login" render={() => isAuthenticated ? <Redirect to="/products" /> : <Login setIsAuthenticated={setIsAuthenticated} />} />
             <Route path="/register" render={() => isAuthenticated ? <Redirect to="/products" /> : <Registration setIsAuthenticated={setIsAuthenticated} />} /> // Route for registration page
             <Route path="/products" render={() => <Home setIsAuthenticated={setIsAuthenticated} />} />
