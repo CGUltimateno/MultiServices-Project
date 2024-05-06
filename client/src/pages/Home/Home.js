@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import classes from "./Home.module.css";
 import { ProductCard } from "../ProductCard/ProductCard";
 import { useHistory } from "react-router-dom";
-import api from "../api/api";
+import api from "../../api/api";
 
 export const Home = ({ setIsAuthenticated }) => {
   const history = useHistory();
@@ -13,7 +13,7 @@ export const Home = ({ setIsAuthenticated }) => {
   const [weather, setWeather] = useState("");
   const [weatherError, setWeatherError] = useState(false);
   const [latestProductAddedToCart, setLatestProductAddedToCart] = useState();
-  const [feedback, setFeedback] = useState(''); 
+  const [feedback, setFeedback] = useState('');
 
   const logoutHandler = () => {
     sessionStorage.removeItem("isAuthenticated");
@@ -21,15 +21,17 @@ export const Home = ({ setIsAuthenticated }) => {
     history.push("/");
   };
 
-  const handleSubmit = async (event) => { 
-    event.preventDefault();
-    try {
-      await api.createFeedback({ text: feedback });
-      setFeedback('');
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    const handleSubmit = async (event) => {
+        console.log(feedback);
+        event.preventDefault();
+        try {
+            const userId = sessionStorage.getItem("userId");
+            await api.createFeedback({ feedback, userId });
+            setFeedback('');
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
   useEffect(async () => {
     await api
@@ -123,17 +125,19 @@ export const Home = ({ setIsAuthenticated }) => {
           ))}
       </div>
       <span>Feedback</span>
-      <form onSubmit={handleSubmit}>
+        <div className={classes.container}>
+            <form onSubmit={handleSubmit}>
         <textarea
-          placeholder="Enter your feedback here"
-          value={feedback}
-          onChange={(e) => setFeedback(e.target.value)}
+            placeholder="Enter your feedback here"
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
         />
-        <button type="submit">Submit</button>
-      </form>
-      <button className={classes.logout} onClick={logoutHandler}>
-        Logout
-      </button>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+        <button className={classes.logout} onClick={logoutHandler}>
+            Logout
+        </button>
     </>
   );
 };

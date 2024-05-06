@@ -97,6 +97,11 @@ services:
       - "5004:5004"
     networks:
       - ecommerce-app
+    links:
+        - feedback_db
+    restart: on-failure
+    depends_on:
+      - feedback_db
     volumes:
       - ./feedback_service:/app
       - /app/node_modules

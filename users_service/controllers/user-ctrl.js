@@ -12,7 +12,6 @@ registerUser = async (req, res) => {
     }
 
     try {
-        // Check if the username already exists
         const existingUser = await User.findOne({ username });
         if (existingUser) {
             return res.status(400).json({
@@ -21,13 +20,11 @@ registerUser = async (req, res) => {
             });
         }
 
-        // Create a new user
         const newUser = new User({
             username,
             password,
         });
 
-        // Save the user to the database
         const savedUser = await newUser.save();
 
         return res.status(201).json({

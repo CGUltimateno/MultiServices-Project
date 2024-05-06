@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classes from "./Registration.module.css";
 import { useHistory } from "react-router-dom";
-import api from "../api";
+import api from "../api/api";
 
 export const Registration = ({  }) => {
   const history = useHistory();

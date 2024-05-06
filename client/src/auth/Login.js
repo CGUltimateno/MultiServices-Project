@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import classes from "./Login.module.css";
-import { Link, useHistory } from "react-router-dom"; // Import Link from react-router-dom
-import api from "../api";
+import { Link, useHistory } from "react-router-dom";
+import api from "../api/api";
 
 export const Login = ({ setIsAuthenticated }) => {
   const history = useHistory();

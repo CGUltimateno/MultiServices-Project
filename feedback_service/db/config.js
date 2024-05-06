@@ -1,9 +1,18 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const connect = async () => {
+    try {
+        const options = {
+            useNewUrlParser: true,
+        };
 
-const db = mongoose
-    .connect("mongodb://feedback_db:27020/feedbackdb", { useNewUrlParser: true })
-    .catch((e) => {
-        console.error("Connection error", e.message);
-    });
-
-module.exports = db;
+        const connection = await mongoose.connect('mongodb://feedback_db:27017/feedback', options);
+        if (connection)
+            console.log("\x1b[32m%s\x1b[0m", "Database Connected Successfully...");
+    } catch (err) {
+        console.log("\x1b[31m%s\x1b[0m", "Error while connecting database\n");
+        console.log(err);
+    }
+};
+module.exports = {
+    connect,
+};
